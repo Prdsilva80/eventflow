@@ -1,23 +1,42 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Req,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { RegisterDto } from '../common/dto/register.dto';
 import { LoginDto } from '../common/dto/login.dto';
-import { ApiTags, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { RegisterDto } from '../common/dto/register.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CanActivate } from '@nestjs/common';
+import { User } from '@prisma/client';
 
-@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @ApiCreatedResponse({ description: 'Usuário registrado com sucesso' })
-  register(@Body() data: RegisterDto) {
-    return this.authService.register(data);
+  async register(@Body() data: RegisterDto) {
+    const user = await this.authService.register(data);
+    return { message: 'Usuário criado com sucesso', user };
   }
 
   @Post('login')
-  @ApiOkResponse({ description: 'Login realizado com sucesso' })
-  login(@Body() data: LoginDto) {
-    return this.authService.login(data);
+  async login(@Body() data: LoginDto) {
+    const user = await this.authService.validateUser(data.email, data.password);
+    if (!user) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+
+    // Força o TypeScript a entender que é User completo (mesmo sem password)
+    return this.authService.login(user as User);
+  }
+
+  @UseGuards(JwtAuthGuard as unknown as CanActivate)
+  getProfile(@Req() req: Request & { user: Omit<User, 'password'> }) {
+    return req.user;
   }
 }
