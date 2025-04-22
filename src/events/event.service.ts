@@ -1,26 +1,40 @@
-// src/events/event.service.ts
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from '@/events/dto/create-event.dto';
+import { PrismaService } from '@/config/prisma/prisma.service';
+import { Event } from '@prisma/client';
+import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventService {
-  private events = [
-    { id: 1, name: 'Evento A', organizer: 'Admin' },
-    { id: 2, name: 'Evento B', organizer: 'Organizer' },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateEventDto) {
-    const newEvent = {
-      id: this.events.length + 1,
-      name: dto.name,
-      organizer: dto.organizer,
-    };
-
-    this.events.push(newEvent);
-    return { message: 'Evento criado com sucesso!', event: newEvent };
+  async create(dto: CreateEventDto): Promise<Event> {
+    return this.prisma.event.create({ data: dto });
   }
 
-  findAll() {
-    return this.events;
+  async findAll(): Promise<Event[]> {
+    return this.prisma.event.findMany({
+      include: { organizer: true },
+    });
+  }
+
+  async findOne(id: number): Promise<Event | null> {
+    return this.prisma.event.findUnique({
+      where: { id },
+      include: { organizer: true },
+    });
+  }
+
+  async update(id: number, dto: UpdateEventDto): Promise<Event> {
+    return this.prisma.event.update({
+      where: { id },
+      data: dto,
+    });
+  }
+
+  async remove(id: number): Promise<Event> {
+    return this.prisma.event.delete({
+      where: { id },
+    });
   }
 }

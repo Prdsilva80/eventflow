@@ -1,26 +1,47 @@
 // src/events/event.controller.ts
-import { Controller, Post, UseGuards, Body, Get } from '@nestjs/common';
-import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
-import { Roles } from '@/auth/decorators/roles.decorator';
-import { RolesGuard } from '@/auth/guards/roles.guard';
-import { Role } from '@prisma/client';
-import { CreateEventDto } from './dto/create-event.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { EventService } from './event.service';
+import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { Event } from '@prisma/client';
 
 @Controller('events')
+@UseGuards(JwtAuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.ORGANIZER)
-  createEvent(@Body() dto: CreateEventDto) {
+  create(@Body() dto: CreateEventDto): Promise<Event> {
     return this.eventService.create(dto);
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  findAllEvents() {
+  findAll(): Promise<Event[]> {
     return this.eventService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Event | null> {
+    return this.eventService.findOne(Number(id));
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateEventDto): Promise<Event> {
+    return this.eventService.update(Number(id), dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<Event> {
+    return this.eventService.remove(Number(id));
   }
 }
