@@ -14,19 +14,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(PARTICIPANT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 enum Role {
   ADMIN
   ORGANIZER
   PARTICIPANT
 }
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELED
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  role        Role         @default(PARTICIPANT)
+  phone       String?
+  bio         String?
+  avatarUrl   String?
+  events      Event[]      @relation("EventOrganizer")
+  registrations Registration[]
+  feedbacks   Feedback[]
+  notifications Notification[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Event {
+  id            Int               @id @default(autoincrement())
+  name          String
+  description   String
+  date          DateTime
+  location      String
+  capacity      Int?
+  status        EventStatus       @default(DRAFT)
+  organizerId   Int
+  organizer     User              @relation("EventOrganizer", fields: [organizerId], references: [id])
+  registrations Registration[]
+  feedbacks     Feedback[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model Registration {
+  id          Int                  @id @default(autoincrement())
+  userId      Int
+  eventId     Int
+  status      RegistrationStatus  @default(PENDING)
+  user        User                @relation(fields: [userId], references: [id])
+  event       Event               @relation(fields: [eventId], references: [id])
+  createdAt   DateTime            @default(now())
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  rating    Int      // 1-5 scale
+  comment   String?
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  isRead    Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
 
