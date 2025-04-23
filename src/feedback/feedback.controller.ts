@@ -9,17 +9,17 @@ export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   @Post()
-  create(@Body() dto: CreateFeedbackDto): Promise<Feedback> {
+  async create(@Body() dto: CreateFeedbackDto): Promise<Feedback> {
     return this.feedbackService.create(dto);
   }
 
   @Get()
-  findAll(): Promise<Feedback[]> {
+  async findAll(): Promise<Feedback[]> {
     return this.feedbackService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Feedback | null> {
+  async findOne(@Param('id') id: string): Promise<Feedback | null> {
     return this.feedbackService.findOne(Number(id));
   }
 }

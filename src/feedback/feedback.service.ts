@@ -9,7 +9,17 @@ export class FeedbackService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateFeedbackDto): Promise<Feedback> {
-    return this.prisma.feedback.create({ data: dto });
+    if (dto.rating < 1 || dto.rating > 5) {
+      throw new Error('A avaliação (rating) deve estar entre 1 e 5 estrelas.');
+    }
+
+    return this.prisma.feedback.create({
+      data: dto,
+      include: {
+        user: true,
+        event: true,
+      },
+    });
   }
 
   async findAll(): Promise<Feedback[]> {
