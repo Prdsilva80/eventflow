@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   Body,
   Controller,
@@ -12,7 +13,7 @@ import { LoginDto } from '../common/dto/login.dto';
 import { RegisterDto } from '../common/dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CanActivate } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +21,10 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() data: RegisterDto) {
-    const user = await this.authService.register(data);
+    const user = await this.authService.register({
+      ...data,
+      role: data.role as Role,
+    });
     return { message: 'Usuário criado com sucesso', user };
   }
 

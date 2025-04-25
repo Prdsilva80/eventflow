@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../config/prisma/prisma.service';
 import { User, Role } from '@prisma/client';
@@ -12,8 +13,6 @@ interface RegisterDto {
   role?: Role;
 }
 
-// Used for validation in auth.controller.ts or other files
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface LoginDto {
   email: string;
   password: string;
@@ -47,8 +46,6 @@ export class AuthService {
       return null;
     }
 
-    // Remove password from returned user object
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = user;
     return result;
   }
@@ -67,21 +64,17 @@ export class AuthService {
       },
     });
 
-    // Remove password from returned user object
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = user;
     return result;
   }
 
-  login(user: User) {
-    // Create payload for JWT
+  login(user: User): { access_token: string; user: Omit<User, 'password'> } {
     const payload = {
       sub: user.id,
       email: user.email,
       role: user.role,
     };
 
-    // Return JWT token
     return {
       access_token: this.jwtService.sign(payload),
       user: {
@@ -89,6 +82,11 @@ export class AuthService {
         name: user.name,
         email: user.email,
         role: user.role,
+        phone: null,
+        bio: null,
+        avatarUrl: null,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
     };
   }
@@ -102,7 +100,6 @@ export class AuthService {
       return null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = user;
     return result;
   }
