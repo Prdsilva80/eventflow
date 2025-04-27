@@ -18,7 +18,7 @@ export class EventService {
     });
   }
 
-  async findOne(id: number): Promise<Event | null> {
+  async findById(id: number): Promise<Event | null> {
     return this.prisma.event.findUnique({
       where: { id },
       include: { organizer: true },

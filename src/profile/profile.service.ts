@@ -8,6 +8,12 @@ import { User } from '@prisma/client';
 export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findProfile(userId: number): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+  }
+
   async updateProfile(userId: number, dto: UpdateProfileDto): Promise<User> {
     return this.prisma.user.update({
       where: { id: userId },
