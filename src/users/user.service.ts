@@ -10,6 +10,19 @@ export type SafeUser = Pick<
 
 @Injectable()
 export class UserService {
+  async findById(id: number): Promise<SafeUser | null> {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(filter: RoleFilterDto): Promise<SafeUser[]> {
