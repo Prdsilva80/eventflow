@@ -4,20 +4,21 @@ import type { Config } from 'jest';
 
 const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: './src',
-  testRegex: '.e2e-spec.ts$',
+  rootDir: '.',
+  testMatch: ['<rootDir>/test/**/*.e2e-spec.ts'],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   moduleNameMapper: pathsToModuleNameMapper(
     tsconfig.compilerOptions.paths as Record<string, string[]>,
     {
-      prefix: '<rootDir>/',
+      prefix: '<rootDir>/src/',
     },
   ),
   collectCoverageFrom: ['**/*.(t|j)s'],
-  coverageDirectory: '../coverage-e2e',
+  coverageDirectory: './coverage-e2e',
   testEnvironment: 'node',
+  testTimeout: 30000,
 };
 
 export default config;

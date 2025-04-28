@@ -8,7 +8,7 @@ import { User } from '@prisma/client';
 export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findProfile(userId: number): Promise<User | null> {
+  async getProfile(userId: number): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -18,12 +18,6 @@ export class ProfileService {
     return this.prisma.user.update({
       where: { id: userId },
       data: dto,
-    });
-  }
-
-  async getProfile(userId: number): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { id: userId },
     });
   }
 }

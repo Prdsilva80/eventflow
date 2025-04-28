@@ -1,21 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../config/prisma/prisma.service';
-import { User, Role } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { PrismaService } from '@/config/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { SafeUser } from './dto/safe-user.dto';
+import { Role } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
-// DTOs for input data validation
 interface RegisterDto {
   name: string;
   email: string;
   password: string;
   role?: Role;
-}
-
-interface LoginDto {
-  email: string;
-  password: string;
 }
 
 @Injectable()
@@ -28,47 +22,43 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<Omit<User, 'password'> | null> {
-    // Find user by email
-    const user = await this.prisma.user.findUnique({
-      where: { email },
-    });
+  ): Promise<SafeUser | null> {
+    const user = await this.prisma.user.findUnique({ where: { email } });
 
-    // If user is not found or password doesn't match
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
-    // Compare provided password with hashed password in DB
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return null;
 
-    if (!isPasswordValid) {
-      return null;
-    }
-
-    const { password: _, ...result } = user;
-    return result;
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
   }
 
-  async register(data: RegisterDto): Promise<Omit<User, 'password'>> {
-    // Hash the password
+  async register(data: RegisterDto): Promise<SafeUser> {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    // Create user in database
     const user = await this.prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
         password: hashedPassword,
-        role: data.role || Role.PARTICIPANT,
+        role: data.role ?? Role.PARTICIPANT,
       },
     });
 
-    const { password: _, ...result } = user;
-    return result;
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
   }
 
-  login(user: User): { access_token: string; user: Omit<User, 'password'> } {
+  login(user: SafeUser): { access_token: string; user: SafeUser } {
     const payload = {
       sub: user.id,
       email: user.email,
@@ -77,30 +67,20 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        phone: null,
-        bio: null,
-        avatarUrl: null,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      },
+      user,
     };
   }
 
-  async findUserById(id: number): Promise<Omit<User, 'password'> | null> {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
+  async findUserById(id: number): Promise<SafeUser | null> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
 
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
-    const { password: _, ...result } = user;
-    return result;
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
   }
 }

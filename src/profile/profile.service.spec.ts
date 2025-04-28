@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProfileService } from './profile.service';
 import { PrismaService } from '@/config/prisma/prisma.service';
@@ -34,13 +35,13 @@ describe('ProfileService', () => {
   });
 
   it('should return a profile by user ID', async () => {
-    const findUniqueSpy = jest
-      .spyOn(prismaService.user, 'findUnique')
-      .mockResolvedValue(mockProfile);
+    jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockProfile);
 
-    const profile = await profileService.findProfile(1);
+    const profile = await profileService.getProfile(1); // ⬅️ Corrigido para getProfile
 
     expect(profile).toEqual(mockProfile);
-    expect(findUniqueSpy).toHaveBeenCalledWith({ where: { id: 1 } });
+    expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+      where: { id: 1 },
+    });
   });
 });
