@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, Get, UseGuards, Req, Patch, Body } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
@@ -16,6 +17,9 @@ interface AuthenticatedRequest extends Request {
 
 @Controller('profile')
 export class ProfileController {
+  findProfile(arg0: number): unknown {
+    throw new Error('Method not implemented.');
+  }
   constructor(private readonly profileService: ProfileService) {}
 
   @UseGuards(JwtAuthGuard)
