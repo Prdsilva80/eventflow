@@ -25,8 +25,10 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async getProfile(@Req() request: Request): Promise<SafeUser> {
-    const userJwt = request.user as { userId: number };
+  async getProfile(
+    @Req() request: Request & { user: { userId: number } },
+  ): Promise<SafeUser> {
+    const userJwt = request.user;
 
     const user = await this.userService.findById(userJwt.userId);
     if (!user) {
@@ -39,10 +41,10 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Patch('me')
   async updateProfile(
-    @Req() request: Request,
+    @Req() request: Request & { user: { userId: number } },
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<SafeUser> {
-    const userJwt = request.user as { userId: number };
+    const userJwt = request.user;
 
     return this.userService.updateProfile(userJwt.userId, updateUserDto);
   }

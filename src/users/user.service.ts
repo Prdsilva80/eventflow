@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/config/prisma/prisma.service';
 import { RoleFilterDto } from './dto/role-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -48,21 +48,10 @@ export class UserService {
     const updatedData: Partial<User> = { ...data };
 
     if (data.password) {
-      if (typeof data.password === 'string') {
-        if (typeof data.password === 'string') {
-          if (typeof data.password === 'string') {
-            if (typeof data.password === 'string') {
-              updatedData.password = await hash(data.password, 10);
-            } else {
-              throw new Error('Password must be a string');
-            }
-          } else {
-            throw new Error('Password must be a string');
-          }
-        } else {
-          throw new Error('Password must be a string');
-        }
+      if (typeof data.password !== 'string') {
+        throw new Error('Password must be a string');
       }
+      updatedData.password = await hash(data.password, 10);
     }
 
     const updatedUser = await this.prisma.user.update({
@@ -79,5 +68,15 @@ export class UserService {
     });
 
     return updatedUser;
+  }
+
+  async findMe(userId: number): Promise<SafeUser> {
+    const user = await this.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 }
