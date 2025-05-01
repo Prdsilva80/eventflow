@@ -1,13 +1,27 @@
-import { ApiProperty } from '@nestjs/swagger';
+// src/common/dto/register.dto.ts
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { Role } from '@prisma/client';
 
 export class RegisterDto {
-  @ApiProperty({ example: 'Paulo Silva' })
+  @IsNotEmpty()
+  @IsString()
   name!: string;
 
-  @ApiProperty({ example: 'paulo@email.com' })
+  @IsNotEmpty()
+  @IsEmail()
   email!: string;
 
-  @ApiProperty({ example: 'Senha@Forte123' })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(6)
   password!: string;
-  role?: string;
+
+  @IsOptional()
+  role?: Role;
 }

@@ -11,6 +11,7 @@ import {
 import { UserService, SafeUser } from './user.service';
 import { RoleFilterDto } from './dto/role-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthenticatedRequest } from '@/@types/authenticated-request';
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 
@@ -25,16 +26,9 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async getProfile(
-    @Req() request: Request & { user: { userId: number } },
-  ): Promise<SafeUser> {
-    const userJwt = request.user;
-
-    const user = await this.userService.findById(userJwt.userId);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
+  async getProfile(@Req() request: AuthenticatedRequest): Promise<SafeUser> {
+    const user = await this.userService.findById(request.user.userId);
+    if (!user) throw new NotFoundException('User not found');
     return user;
   }
 
