@@ -43,8 +43,8 @@ describe('UserController', () => {
 
   it('should return current user profile', async () => {
     const mockRequest = {
-      user: { userId: 1 },
-    } as Request & { user: { userId: number } };
+      user: { userId: 1, email: 'test@example.com', role: Role.PARTICIPANT },
+    } as Request & { user: { userId: number; email: string; role: string } };
 
     const result = await userController.getProfile(mockRequest);
 

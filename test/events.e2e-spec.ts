@@ -10,7 +10,7 @@ describe('EventsController (e2e)', () => {
   let prismaService: PrismaService;
   let accessToken: string;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
