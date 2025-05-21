@@ -1,36 +1,41 @@
 // src/events/dto/create-event.dto.ts
 import {
-  IsDateString,
-  IsInt,
-  IsNotEmpty,
   IsString,
-  Length,
+  IsNotEmpty,
+  IsDateString,
+  IsOptional,
+  IsInt,
+  Min,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
 export class CreateEventDto {
   @IsString()
-  @IsNotEmpty({ message: 'O nome do evento é obrigatório.' })
-  @Length(3, 100, { message: 'O nome deve ter entre 3 e 100 caracteres.' })
+  @IsNotEmpty()
+  @MinLength(3, { message: 'O nome deve ter pelo menos 3 caracteres' })
+  @MaxLength(100, { message: 'O nome deve ter no máximo 100 caracteres' })
   name!: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'A descrição do evento é obrigatória.' })
-  @MinLength(10, { message: 'A descrição deve ter pelo menos 10 caracteres.' })
-  @MaxLength(500, { message: 'A descrição pode ter no máximo 500 caracteres.' })
+  @IsNotEmpty()
+  @MinLength(10, { message: 'A descrição deve ter pelo menos 10 caracteres' })
   description!: string;
 
-  @IsDateString({}, { message: 'A data deve estar no formato ISO 8601.' })
+  @IsDateString()
+  @IsNotEmpty()
   date!: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'A localização é obrigatória.' })
-  @Length(3, 150, {
-    message: 'A localização deve ter entre 3 e 150 caracteres.',
-  })
+  @IsNotEmpty()
   location!: string;
 
-  @IsInt({ message: 'O ID do organizador deve ser um número inteiro.' })
+  @IsOptional()
+  @IsInt()
+  @Min(1, { message: 'A capacidade deve ser pelo menos 1' })
+  capacity?: number;
+
+  @IsInt()
+  @IsNotEmpty()
   organizerId!: number;
 }

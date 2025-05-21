@@ -13,6 +13,7 @@ import { FeedbackService } from './feedback/feedback.service';
 import { ProfileService } from './profile/profile.service';
 import { NotificationService } from './notifications/notification.service';
 import { ResendService } from './providers/resend.service';
+import { LoggerService } from './common/logger/logger.service';
 
 @Module({
   imports: [PrismaModule, AuthModule, UserModule],
@@ -30,6 +31,8 @@ import { ResendService } from './providers/resend.service';
     ProfileService,
     NotificationService,
     ResendService,
+    LoggerService,
   ],
+  exports: [LoggerService],
 })
 export class AppModule {}
