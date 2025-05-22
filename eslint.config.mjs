@@ -27,17 +27,18 @@ export default tseslint.config(
       },
     },
   },
-  {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/require-await': 'warn',
-      '@typescript-eslint/no-unsafe-call': 'error',
-      '@typescript-eslint/no-unsafe-return': 'error',
-      '@typescript-eslint/no-unsafe-member-access': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'error',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      '@typescript-eslint/explicit-module-boundary-types': 'warn',
-      'prettier/prettier': 'warn',
-    },
-  }
+    {
+  files: ['**/*.spec.ts'],
+  rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/require-await': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/unbound-method': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+  },
+}
 );

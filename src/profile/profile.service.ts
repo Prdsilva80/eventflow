@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 // src/profile/profile.service.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/config/prisma/prisma.service';

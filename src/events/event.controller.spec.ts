@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventController } from './event.controller';
 import { EventService } from './event.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 describe('EventController', () => {
   let eventController: EventController;
@@ -36,8 +36,11 @@ describe('EventController', () => {
   });
 
   it('should get all events', async () => {
-    const events = await eventController.findAll();
+    // Criando um objeto vazio de paginação para passar como parâmetro
+    const paginationQuery = new PaginationQueryDto();
+
+    const events = await eventController.findAll(paginationQuery);
     expect(events).toEqual([mockEvent]);
-    expect(eventService.findAll).toHaveBeenCalled();
+    expect(eventService.findAll).toHaveBeenCalledWith(paginationQuery);
   });
 });

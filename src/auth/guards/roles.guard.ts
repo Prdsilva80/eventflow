@@ -26,7 +26,7 @@ export class RolesGuard implements CanActivate {
       .getRequest<Request & { user: Omit<User, 'password'> }>();
     const user = request.user;
 
-    if (!requiredRoles.includes(user.role)) {
+    if (!user || !requiredRoles.includes(user.role)) {
       throw new ForbiddenException('Acesso negado para seu perfil');
     }
 

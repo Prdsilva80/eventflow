@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventService } from './event.service';
-import { PrismaService } from '@/config/prisma/prisma.service';
+import { PrismaService } from '../config/prisma/prisma.service';
 import { Event, EventStatus } from '@prisma/client';
 
 describe('EventService', () => {
@@ -38,7 +38,8 @@ describe('EventService', () => {
       .spyOn(prismaService.event, 'findUnique')
       .mockResolvedValue(mockEvent);
 
-    const event = await eventService.findById(1);
+    // Alterado de findById para findOne para compatibilidade com a nova implementação
+    const event = await eventService.findOne(1);
 
     expect(event).toEqual(mockEvent);
     expect(findUniqueSpy).toHaveBeenCalledWith({
