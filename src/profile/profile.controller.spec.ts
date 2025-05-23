@@ -2,15 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { Request } from 'express';
-
-interface AuthenticatedRequest extends Request {
-  user: {
-    userId: number;
-    email: string;
-    role: string;
-  };
-}
+import { AuthenticatedRequest } from '@/@types/authenticated-request';
 
 describe('ProfileController', () => {
   let controller: ProfileController;
@@ -41,7 +33,7 @@ describe('ProfileController', () => {
     mockProfileService.getProfile.mockResolvedValue(profile);
 
     const mockRequest = {
-      user: { userId: 1, email: 'john@example.com', role: 'PARTICIPANT' },
+      user: { id: 1, email: 'john@example.com', role: 'PARTICIPANT' },
     } as AuthenticatedRequest;
 
     expect(await controller.getProfile(mockRequest)).toEqual(profile);
@@ -55,7 +47,7 @@ describe('ProfileController', () => {
     mockProfileService.updateProfile.mockResolvedValue(updatedProfile);
 
     const mockRequest = {
-      user: { userId: 1, email: 'john@example.com', role: 'PARTICIPANT' },
+      user: { id: 1, email: 'john@example.com', role: 'PARTICIPANT' },
     } as AuthenticatedRequest;
 
     expect(await controller.updateProfile(mockRequest, dto)).toEqual(

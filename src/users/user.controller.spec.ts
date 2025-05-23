@@ -3,7 +3,7 @@ import { UserController } from './user.controller';
 import { UserService, SafeUser } from './user.service';
 import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { Role } from '@prisma/client';
-import { Request } from 'express';
+import { AuthenticatedRequest } from '@/@types/authenticated-request';
 import { RoleFilterDto } from './dto/role-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -43,8 +43,8 @@ describe('UserController', () => {
 
   it('should return current user profile', async () => {
     const mockRequest = {
-      user: { userId: 1, email: 'test@example.com', role: Role.PARTICIPANT },
-    } as Request & { user: { userId: number; email: string; role: string } };
+      user: { id: 1, email: 'test@example.com', role: Role.PARTICIPANT },
+    } as AuthenticatedRequest;
 
     const result = await userController.getProfile(mockRequest);
 
@@ -54,8 +54,8 @@ describe('UserController', () => {
 
   it('should update current user profile', async () => {
     const mockRequest = {
-      user: { userId: 1 },
-    } as Request & { user: { userId: number } };
+      user: { id: 1, email: 'test@example.com', role: Role.PARTICIPANT },
+    } as AuthenticatedRequest;
 
     const updateData: UpdateUserDto = {
       name: 'Updated Name',

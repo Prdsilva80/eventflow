@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '@/config/prisma/prisma.service';
 import { RoleFilterDto } from './dto/role-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,6 +19,10 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findById(id: number): Promise<SafeUser | null> {
+    if (!id || typeof id !== 'number') {
+      throw new BadRequestException('User ID must be a valid number');
+    }
+
     return this.prisma.user.findUnique({
       where: { id },
       select: {
