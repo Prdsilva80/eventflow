@@ -1,120 +1,133 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="https://nestjs.com/" target="_blank">
+    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
+  </a>
 </p>
 
-# 🎯 EventFlow - Backend Application
+<h1 align="center">🎯 EventFlow - Backend Application</h1>
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://nestjs.com/)  
+<p align="center">
+  <a href="https://eventflow-u837.onrender.com" target="_blank">
+    <img src="https://img.shields.io/badge/Live-View%20API-blue?style=for-the-badge" alt="Live API" />
+  </a>
+  <br/>
+  <a href="https://nestjs.com/" target="_blank">
+    <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="Tests Passing" />
+  </a>
+</p>
 
 ---
 
-## 📖 Sobre o Projeto (Português)
+## 🇧🇷 Sobre o Projeto
+
 O **EventFlow** é uma aplicação backend construída com **NestJS** + **Prisma ORM**, focada no **gerenciamento de eventos**, **inscrições de usuários** e **envio de notificações automáticas**.  
-O objetivo é oferecer uma estrutura robusta, escalável e segura para sistemas que precisam lidar com múltiplos eventos e perfis de usuários.
+O objetivo é oferecer uma estrutura robusta, escalável e segura para sistemas que lidam com múltiplos eventos e perfis de usuários.
 
 ---
 
 ## 🚀 O que o projeto resolve?
+
 - Cadastro e autenticação segura de usuários.
-- Gestão de eventos (criação, atualização e listagem).
+- Gestão de eventos (criação, edição, listagem).
 - Inscrição de usuários em eventos.
-- Feedbacks e avaliações de eventos.
-- Notificações automáticas via e-mail para eventos e atualizações importantes.
-- Atualização de perfil de usuários.
+- Avaliação e feedback de eventos.
+- Notificações automáticas via e-mail.
+- Atualização de perfil de usuário.
 
 ---
 
-## 🔥 Problemas enfrentados e como solucionamos
+## 🔧 Desafios enfrentados
 
 | Problema | Solução |
-| :------- | :------ |
-| Complexidade na autenticação JWT + ResendService | Criamos mocks personalizados nos testes para isolar as dependências externas e garantir testes confiáveis. |
-| Tipagem inconsistente no Express Request | Implementamos a interface `AuthenticatedRequest` para adicionar segurança e garantir acesso ao `userId`, `email` e `role`. |
-| Conflito de testes duplicados no NotificationService | Refatoramos os testes para manter apenas a abordagem mockada corretamente, focando no Prisma + Resend. |
-| Cobertura baixa em controllers e services | Escrevemos testes unitários e de integração para todos os fluxos principais (auth, events, notifications, feedback, profile, users). |
+|---------|---------|
+| Integração complexa JWT + ResendService | Criamos mocks personalizados para isolar dependências externas nos testes. |
+| Tipagem inconsistente no Express | Implementamos `AuthenticatedRequest` para garantir acesso seguro a `userId`, `email` e `role`. |
+| Conflito em testes duplicados do NotificationService | Refatoramos os testes mantendo apenas a abordagem mockada com Prisma e Resend. |
+| Baixa cobertura em controllers e services | Escrevemos testes unitários e de integração nos fluxos principais. |
 
 ---
 
 ## ✅ Testes Automatizados
-- **Cobertura geral: 45%**.
-- **Módulos críticos** (auth, profile, feedback, notification, events, users) com **mais de 90% de cobertura**.
-- Testes unitários e de integração com **Jest**.
-- Ambiente de testes com **mock de PrismaService** e **ResendService**.
+
+- Cobertura total: **45%**
+- Cobertura >90% nos módulos: **auth, profile, feedback, notification, events, users**
+- Testes com **Jest** e ambiente com mocks de **PrismaService** e **ResendService**
 
 ---
 
-## 🔥 Próximas implementações
-- Melhorar cobertura de testes dos guards (`jwt-auth.guard`, `roles.guard`).
-- Implementar **paginação** na listagem de eventos e usuários.
-- Adicionar **filtros dinâmicos** em eventos (data, categoria, organizador).
-- Criar sistema de **reenvio automático de notificações** via cronjob.
-- Implementar **WebSocket** para notificações em tempo real.
+## 🔮 Próximas funcionalidades
+
+- Paginação em listagens
+- Filtros dinâmicos em eventos
+- Reenvio automático de e-mails com cronjob
+- WebSocket para notificações em tempo real
+- Cobertura de testes em guards
 
 ---
 
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Tecnologias Utilizadas
+
 - [NestJS](https://nestjs.com/)
 - [Prisma ORM](https://www.prisma.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Jest](https://jestjs.io/)
-- [Resend Email API](https://resend.com/)
+- [Resend API](https://resend.com/)
 
 ---
 
-# 📖 About the Project (English)
-**EventFlow** is a backend application built with **NestJS** + **Prisma ORM**, focused on **event management**, **user registration** and **automatic email notifications**.  
-The goal is to provide a robust, scalable, and secure structure for systems that handle multiple events and different user profiles.
+## 🇺🇸 About the Project
+
+**EventFlow** is a backend application built with **NestJS** and **Prisma ORM**, focused on **event management**, **user enrollment**, and **automated email notifications**.  
+Its goal is to provide a scalable and secure architecture for systems dealing with multiple events and user roles.
 
 ---
 
-## 🚀 What does this project solve?
-- Secure user registration and authentication.
-- Event management (create, update, list).
-- User enrollment in events.
-- Event feedback and rating system.
-- Automatic email notifications for events and important updates.
-- User profile updating.
+## 🚀 What problems does it solve?
+
+- Secure user registration and authentication
+- Full event CRUD operations
+- User registration for events
+- Feedback and rating system
+- Email notifications for key updates
+- Profile management
 
 ---
 
-## 🔥 Challenges and how we solved them
+## 🧩 Challenges and Solutions
 
 | Challenge | Solution |
-| :-------- | :------- |
-| Complex JWT + ResendService authentication integration | Created custom mocks during testing to isolate external dependencies and guarantee reliable unit tests. |
-| Inconsistent typing in Express Request | Implemented an `AuthenticatedRequest` interface to securely access `userId`, `email`, and `role`. |
-| Duplicate NotificationService tests | Refactored to keep only the correctly mocked approach using Prisma + Resend. |
-| Low test coverage in some controllers and services | Wrote unit and integration tests for all main flows (auth, events, notifications, feedback, profile, users). |
+|----------|----------|
+| Complex JWT + ResendService integration | Created test mocks to isolate and ensure stability |
+| Type inconsistencies in Express Request | Implemented `AuthenticatedRequest` for type-safe access |
+| Duplicate NotificationService tests | Refactored to use a consistent mocked approach |
+| Low coverage in core modules | Increased coverage via unit/integration tests |
 
 ---
 
-## ✅ Automated Testing
-- **Overall coverage: 45%**.
-- **Critical modules** (auth, profile, feedback, notification, events, users) with **over 90% coverage**.
-- Unit and integration tests written with **Jest**.
-- Test environment with **mocked PrismaService** and **ResendService**.
+## ✅ Testing Highlights
+
+- Overall coverage: **45%**
+- Critical modules: **90%+ coverage**
+- Tests with **Jest** using mock services
 
 ---
 
-## 🔥 Next implementations
-- Improve test coverage on guards (`jwt-auth.guard`, `roles.guard`).
-- Implement **pagination** in user and event listings.
-- Add **dynamic filters** to events (by date, category, organizer).
-- Create **automatic email resending system** using cronjobs.
-- Implement **WebSocket** for real-time notifications.
+## 🔮 Upcoming Features
+
+- Event/user pagination
+- Dynamic filtering
+- Cronjob-based email resending
+- WebSocket notifications
+- Full guard test coverage
 
 ---
 
-## 🛠️ Tech Stack
-- [NestJS](https://nestjs.com/)
-- [Prisma ORM](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Jest](https://jestjs.io/)
-- [Resend Email API](https://resend.com/)
+## 🌐 Live API
+
+> 🔗 **[https://eventflow-u837.onrender.com](https://eventflow-u837.onrender.com)**
 
 ---
 
+## 📜 License
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+NestJS is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
