@@ -1,133 +1,149 @@
-<p align="center">
-  <a href="https://nestjs.com/" target="_blank">
-    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
-  </a>
-</p>
+# 🎟️ EventFlow
 
-<h1 align="center">🎯 EventFlow - Backend Application</h1>
-
-<p align="center">
-  <a href="https://eventflow-u837.onrender.com" target="_blank">
-    <img src="https://img.shields.io/badge/Live-View%20API-blue?style=for-the-badge" alt="Live API" />
-  </a>
-  <br/>
-  <a href="https://nestjs.com/" target="_blank">
-    <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="Tests Passing" />
-  </a>
-</p>
+A modern event management backend built with NestJS, Prisma ORM, and PostgreSQL. Designed for scalability, modularity, and secure access to manage users, events, feedbacks, and notifications.
 
 ---
 
-## 🇧🇷 Sobre o Projeto
+## 🎯 Project Purpose
 
-O **EventFlow** é uma aplicação backend construída com **NestJS** + **Prisma ORM**, focada no **gerenciamento de eventos**, **inscrições de usuários** e **envio de notificações automáticas**.  
-O objetivo é oferecer uma estrutura robusta, escalável e segura para sistemas que lidam com múltiplos eventos e perfis de usuários.
-
----
-
-## 🚀 O que o projeto resolve?
-
-- Cadastro e autenticação segura de usuários.
-- Gestão de eventos (criação, edição, listagem).
-- Inscrição de usuários em eventos.
-- Avaliação e feedback de eventos.
-- Notificações automáticas via e-mail.
-- Atualização de perfil de usuário.
+EventFlow is a backend API for an intelligent event platform, handling authentication, event creation, user registration, feedback, and email notifications. It showcases best practices for building scalable and secure backend services.
 
 ---
 
-## 🔧 Desafios enfrentados
+## 💡 Features
 
-| Problema | Solução |
-|---------|---------|
-| Integração complexa JWT + ResendService | Criamos mocks personalizados para isolar dependências externas nos testes. |
-| Tipagem inconsistente no Express | Implementamos `AuthenticatedRequest` para garantir acesso seguro a `userId`, `email` e `role`. |
-| Conflito em testes duplicados do NotificationService | Refatoramos os testes mantendo apenas a abordagem mockada com Prisma e Resend. |
-| Baixa cobertura em controllers e services | Escrevemos testes unitários e de integração nos fluxos principais. |
-
----
-
-## ✅ Testes Automatizados
-
-- Cobertura total: **45%**
-- Cobertura >90% nos módulos: **auth, profile, feedback, notification, events, users**
-- Testes com **Jest** e ambiente com mocks de **PrismaService** e **ResendService**
+- Authentication with JWT  
+- Role-based access (admin, organizer, attendee)  
+- Event creation and management  
+- User registrations for events  
+- Feedback submission and star rating  
+- Email notifications via Resend  
+- Modular structure using NestJS best practices  
+- Automated tests with Jest  
 
 ---
 
-## 🔮 Próximas funcionalidades
+## 🚀 Live Deploy
 
-- Paginação em listagens
-- Filtros dinâmicos em eventos
-- Reenvio automático de e-mails com cronjob
-- WebSocket para notificações em tempo real
-- Cobertura de testes em guards
+The project is deployed and running in a production environment.  
+For security reasons, the public link is not disclosed here.  
+Access may be granted upon request for evaluation or collaboration purposes.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies
 
-- [NestJS](https://nestjs.com/)
-- [Prisma ORM](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Jest](https://jestjs.io/)
-- [Resend API](https://resend.com/)
-
----
-
-## 🇺🇸 About the Project
-
-**EventFlow** is a backend application built with **NestJS** and **Prisma ORM**, focused on **event management**, **user enrollment**, and **automated email notifications**.  
-Its goal is to provide a scalable and secure architecture for systems dealing with multiple events and user roles.
+- NestJS  
+- TypeScript  
+- Prisma ORM  
+- PostgreSQL  
+- Resend (email service)  
+- JWT & Guards for authentication  
+- Jest for testing  
 
 ---
 
-## 🚀 What problems does it solve?
+## 🧪 Running Locally
 
-- Secure user registration and authentication
-- Full event CRUD operations
-- User registration for events
-- Feedback and rating system
-- Email notifications for key updates
-- Profile management
+```bash
+git clone https://github.com/seuusuario/eventflow.git
+cd eventflow
 
----
+npm install
 
-## 🧩 Challenges and Solutions
+# Set up your .env with database credentials and JWT secret
 
-| Challenge | Solution |
-|----------|----------|
-| Complex JWT + ResendService integration | Created test mocks to isolate and ensure stability |
-| Type inconsistencies in Express Request | Implemented `AuthenticatedRequest` for type-safe access |
-| Duplicate NotificationService tests | Refactored to use a consistent mocked approach |
-| Low coverage in core modules | Increased coverage via unit/integration tests |
+npx prisma generate
+npx prisma migrate dev
+
+npm run start:dev
+```
 
 ---
 
-## ✅ Testing Highlights
+## 📄 License
 
-- Overall coverage: **45%**
-- Critical modules: **90%+ coverage**
-- Tests with **Jest** using mock services
+This project is licensed under the MIT License.
 
 ---
 
-## 🔮 Upcoming Features
+## 🤝 Contributions
 
-- Event/user pagination
-- Dynamic filtering
-- Cronjob-based email resending
-- WebSocket notifications
-- Full guard test coverage
+Contributions are welcome! Feel free to fork the project, submit pull requests, or open issues.
 
----
+> ⚠️ This project is built for portfolio use, but follows production-grade standards and architecture.
 
-## 🌐 Live API
+# 🎟️ EventFlow (Versão em Português)
 
-> 🔗 **[https://eventflow-u837.onrender.com](https://eventflow-u837.onrender.com)**
+Um backend moderno para gerenciamento de eventos, construído com NestJS, Prisma ORM e PostgreSQL. Projetado com foco em escalabilidade, modularidade e segurança no acesso a usuários, eventos, avaliações e notificações.
 
 ---
 
-## 📜 License
+## 🎯 Propósito do Projeto
 
-NestJS is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+EventFlow é uma API backend para uma plataforma inteligente de eventos, responsável pela autenticação de usuários, criação de eventos, inscrições, envio de feedbacks e notificações por e-mail. O projeto demonstra boas práticas no desenvolvimento de backends escaláveis e seguros.
+
+---
+
+## 💡 Funcionalidades
+
+- Autenticação com JWT  
+- Acesso baseado em papéis (administrador, organizador, participante)  
+- Criação e gerenciamento de eventos  
+- Inscrição de usuários em eventos  
+- Envio de feedback com classificação por estrelas  
+- Notificações por e-mail via Resend  
+- Estrutura modular seguindo boas práticas do NestJS  
+- Testes automatizados com Jest  
+
+---
+
+## 🚀 Deploy em Produção
+
+O projeto está em produção e operando normalmente.  
+Por motivos de segurança, o link público não está sendo divulgado aqui.  
+Acesso sob solicitação, para fins de demonstração ou colaboração.
+
+---
+
+## 🛠️ Tecnologias
+
+- NestJS  
+- TypeScript  
+- Prisma ORM  
+- PostgreSQL  
+- Resend (serviço de e-mails)  
+- JWT & Guards para autenticação  
+- Jest para testes automatizados  
+
+---
+
+## 🧪 Como Rodar Localmente
+
+```bash
+git clone https://github.com/seuusuario/eventflow.git
+cd eventflow
+
+npm install
+
+# Configure o seu .env com credenciais do banco de dados e segredo JWT
+
+npx prisma generate
+npx prisma migrate dev
+
+npm run start:dev
+```
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a Licença MIT.
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para fazer fork, enviar pull requests ou abrir issues.
+
+> ⚠️ Este projeto foi desenvolvido para fins de portfólio, mas segue padrões profissionais e prontos para uso em produção.
